@@ -1,0 +1,722 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gateway-dev-184152-authRole",
+      "UnauthRoleArn": "arn:aws:iam::628607619154:role/amplify-gateway-dev-184152-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::628607619154:role/amplify-gateway-dev-184152-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-gateway-dev-184152-deployment",
+      "UnauthRoleName": "amplify-gateway-dev-184152-unauthRole",
+      "StackName": "amplify-gateway-dev-184152",
+      "StackId": "arn:aws:cloudformation:us-east-1:628607619154:stack/amplify-gateway-dev-184152/af6a99e0-591f-11ec-8bf7-12f6914b066f",
+      "AmplifyAppId": "d1eyfltl5g67m"
+    }
+  },
+  "api": {
+    "gateway": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "apiKeyExpirationDate": "2022-12-13T16:45:35.749Z",
+              "description": ""
+            }
+          },
+          "additionalAuthenticationProviders": []
+        },
+        "GraphQLAPIIdOutput": "23do7wyxrredvnvvkzddkh5imu",
+        "GraphQLAPIEndpointOutput": "https://nwqyb3hue5gkdj5l45t7on2sum.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-3nrs7smlezdrphoj4hmv6zvlry"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.618Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apigateway"
+      }
+    }
+  },
+  "function": {
+    "getUserDAOs": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:getUserDAOs-dev",
+        "Name": "getUserDAOs-dev",
+        "LambdaExecutionRole": "gatewayLambdaRoleac3ef779-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.620Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/getUserDAOs-cloudformation-template.json",
+        "logicalId": "functiongetUserDAOs"
+      }
+    },
+    "getAuthenticationNonce": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "gateway7887c977",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:getAuthenticationNonce-dev",
+        "Name": "getAuthenticationNonce-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole0674bae7-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.621Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/getAuthenticationNonce-cloudformation-template.json",
+        "logicalId": "functiongetAuthenticationNonce"
+      }
+    },
+    "gateway7887c977DefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:gateway7887c977DefineAuthChallenge-dev",
+        "Name": "gateway7887c977DefineAuthChallenge-dev",
+        "LambdaExecutionRole": "gateway7887c977DefineAuthChallenge-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.623Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/gateway7887c977DefineAuthChallenge-cloudformation-template.json",
+        "logicalId": "functiongateway7887c977DefineAuthChallenge"
+      }
+    },
+    "gateway7887c977CreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:gateway7887c977CreateAuthChallenge-dev",
+        "Name": "gateway7887c977CreateAuthChallenge-dev",
+        "LambdaExecutionRole": "gateway7887c977CreateAuthChallenge-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.624Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/gateway7887c977CreateAuthChallenge-cloudformation-template.json",
+        "logicalId": "functiongateway7887c977CreateAuthChallenge"
+      }
+    },
+    "gateway7887c977VerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:gateway7887c977VerifyAuthChallengeResponse-dev",
+        "Name": "gateway7887c977VerifyAuthChallengeResponse-dev",
+        "LambdaExecutionRole": "gateway7887c977VerifyAuthChallengeResponse-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.629Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/gateway7887c977VerifyAuthChallengeResponse-cloudformation-template.json",
+        "logicalId": "functiongateway7887c977VerifyAuthChallengeResponse"
+      }
+    },
+    "gateway7887c977PreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:gateway7887c977PreSignup-dev",
+        "Name": "gateway7887c977PreSignup-dev",
+        "LambdaExecutionRole": "gateway7887c977PreSignup-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.630Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/gateway7887c977PreSignup-cloudformation-template.json",
+        "logicalId": "functiongateway7887c977PreSignup"
+      }
+    },
+    "vote": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:vote-dev",
+        "Name": "vote-dev",
+        "LambdaExecutionRole": "gatewayLambdaRoleedca1141-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.632Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/vote-cloudformation-template.json",
+        "logicalId": "functionvote"
+      }
+    },
+    "addDAOAndChannels": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:addDAOAndChannels-dev",
+        "Name": "addDAOAndChannels-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole458fe0ab-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.659Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/addDAOAndChannels-cloudformation-template.json",
+        "logicalId": "functionaddDAOAndChannels"
+      }
+    },
+    "addKey": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:addKey-dev",
+        "Name": "addKey-dev",
+        "LambdaExecutionRole": "gatewayLambdaRoleb398a734-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.661Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/addKey-cloudformation-template.json",
+        "logicalId": "functionaddKey"
+      }
+    },
+    "gatewayverifyKey": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true,
+      "output": {
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:173"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.662Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/gatewayverifyKey-awscloudformation-template.json",
+        "logicalId": "functiongatewayverifyKey"
+      }
+    },
+    "verifyMeetingCode": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gatewayverifyKey",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:verifyMeetingCode-dev",
+        "Name": "verifyMeetingCode-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole956ac46e-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.664Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/verifyMeetingCode-cloudformation-template.json",
+        "logicalId": "functionverifyMeetingCode"
+      }
+    },
+    "verifyHoldAToken": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gatewayverifyKey",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:verifyHoldAToken-dev",
+        "Name": "verifyHoldAToken-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole24f31e43-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.666Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/verifyHoldAToken-cloudformation-template.json",
+        "logicalId": "functionverifyHoldAToken"
+      }
+    },
+    "verifyQuiz": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gatewayverifyKey",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:verifyQuiz-dev",
+        "Name": "verifyQuiz-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole2b6f58c2-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.667Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/verifyQuiz-cloudformation-template.json",
+        "logicalId": "functionverifyQuiz"
+      }
+    },
+    "verifyContractInteraction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gatewayverifyKey",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:verifyContractInteraction-dev",
+        "Name": "verifyContractInteraction-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole87ecf7ee-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.670Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/verifyContractInteraction-cloudformation-template.json",
+        "logicalId": "functionverifyContractInteraction"
+      }
+    },
+    "verifySnapshot": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gatewayverifyKey",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:verifySnapshot-dev",
+        "Name": "verifySnapshot-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole5eab2262-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.672Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/verifySnapshot-cloudformation-template.json",
+        "logicalId": "functionverifySnapshot"
+      }
+    },
+    "verifySelfVerify": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gatewayverifyKey",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:verifySelfVerify-dev",
+        "Name": "verifySelfVerify-dev",
+        "LambdaExecutionRole": "gatewayLambdaRolea9af45d8-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.675Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/verifySelfVerify-cloudformation-template.json",
+        "logicalId": "functionverifySelfVerify"
+      }
+    },
+    "getCompletedKeys": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:getCompletedKeys-dev",
+        "Name": "getCompletedKeys-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole2b434fd4-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.676Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/getCompletedKeys-cloudformation-template.json",
+        "logicalId": "functiongetCompletedKeys"
+      }
+    },
+    "getGateHolders": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:getGateHolders-dev",
+        "Name": "getGateHolders-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole62a9c6ea-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.678Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/getGateHolders-cloudformation-template.json",
+        "logicalId": "functiongetGateHolders"
+      }
+    },
+    "ceramic": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "gatewayceramicLayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:ceramic-dev",
+        "Name": "ceramic-dev",
+        "LambdaExecutionRole": "gatewayLambdaRolec4e214e9-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.680Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/ceramic-cloudformation-template.json",
+        "logicalId": "functionceramic"
+      }
+    },
+    "generateSignature": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:generateSignature-dev",
+        "Name": "generateSignature-dev",
+        "LambdaExecutionRole": "gatewayLambdaRole284ed472-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.682Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/generateSignature-cloudformation-template.json",
+        "logicalId": "functiongenerateSignature"
+      }
+    },
+    "key": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "gatewayceramicLayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "gateway",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:function:key-dev",
+        "Name": "key-dev",
+        "LambdaExecutionRole": "gatewayLambdaRolef63b29a9-dev"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.683Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/key-cloudformation-template.json",
+        "logicalId": "functionkey"
+      }
+    },
+    "gatewayceramicLayer": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true,
+      "output": {
+        "Arn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayceramicLayer-dev:14"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.687Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/function/gatewayceramicLayer-awscloudformation-template.json",
+        "logicalId": "functiongatewayceramicLayer"
+      }
+    }
+  },
+  "auth": {
+    "gateway7887c977": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "gateway7887c977CreateAuthChallenge",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gateway7887c977DefineAuthChallenge",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gateway7887c977VerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gateway7887c977PreSignup",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ],
+      "customAuth": true,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "PHONE_NUMBER"
+        ]
+      },
+      "output": {
+        "CreatedSNSRole": "arn:aws:iam::628607619154:role/sns7887c977184152-dev",
+        "UserPoolId": "us-east-1_wuNQr6FIj",
+        "AppClientIDWeb": "5873tj7ba9nnfctv1fpvnqu4s8",
+        "AppClientID": "41ocfpno3jqkclnjhd3bmoer9u",
+        "IdentityPoolId": "us-east-1:76af4bf5-aff3-4c45-8437-3c6880d13ec6",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:628607619154:userpool/us-east-1_wuNQr6FIj",
+        "IdentityPoolName": "gateway7887c977_identitypool_7887c977__dev",
+        "UserPoolName": "gateway7887c977_userpool_7887c977"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:29:38.689Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/auth/gateway7887c977-cloudformation-template.json",
+        "logicalId": "authgateway7887c977"
+      }
+    }
+  },
+  "storage": {
+    "s3552269f5": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "BucketName": "gateway9189b056d1a34c419355d6ada6e1b9d8184152-dev",
+        "Region": "us-east-1"
+      },
+      "lastPushTimeStamp": "2022-03-14T19:32:15.683Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-gateway-dev-184152-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storages3552269f5"
+      }
+    }
+  }
+}

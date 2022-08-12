@@ -1,0 +1,6 @@
+{
+    "CreateAPIKey": 1,
+    "AppSyncApiName": "gateway",
+    "S3DeploymentBucket": "amplify-gateway-dev-184152-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/03f4493bef688938d3e2c201645340ec9823c8dd"
+}

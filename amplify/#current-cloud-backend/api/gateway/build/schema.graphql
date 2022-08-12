@@ -1,0 +1,2089 @@
+type User {
+  id: ID!
+  wallet: String!
+  username: String
+  name: String
+  bio: String
+  daos_ids: [String]
+  daos: [DAO]
+  init: Boolean
+  nonce: Int!
+  pfp: String
+  about: String
+  skills: [String]
+  attitudes: [String]
+  languages: [String]
+  knowledges: [String]
+  socials: [Social]
+  gates(filter: ModelGateStatusFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelGateStatusConnection
+  tasks(filter: ModelTaskStatusFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaskStatusConnection
+  credentials(filter: ModelCredentialFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCredentialConnection
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime!
+}
+
+type DAO {
+  id: ID!
+  dao: String!
+  name: String!
+  faq: [FAQ]
+  accomplishments: String
+  snapshotID: String
+  backgroundURL: AWSURL!
+  youtubeURL: AWSURL
+  logoURL: AWSURL!
+  bounties(filter: ModelBountyFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelBountyConnection
+  categories: [String]!
+  tags: [String]
+  description: String!
+  howToJoin: [String]
+  missionAndVision: String
+  whatDoWeDo: String
+  tokenBenefits(filter: ModelTokenBenefitFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTokenBenefitConnection
+  upcomingHangouts: String
+  tokenAddress: String
+  whitelistedAddresses: [String!]
+  socials: [Social]
+  chains: [String]
+  channels(filter: ModelChannelFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelChannelConnection
+  gates(filter: ModelGateFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelGateConnection
+  nftContracts: NFTContracts
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type FAQ {
+  question: String!
+  answer: String!
+}
+
+type Bounty {
+  id: ID!
+  daoID: ID!
+  dao: DAO
+  headline: String!
+  description: String
+  level: String!
+  categories: [String]!
+  reward: String!
+  directions: String
+  links: [String]!
+  endDate: AWSDateTime
+  postDate: AWSDateTime!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type TokenBenefit {
+  id: ID!
+  daoID: ID!
+  dao: DAO
+  amount: String
+  description: String!
+  title: String!
+  token: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Social {
+  network: String!
+  url: String!
+}
+
+type NFTContracts {
+  reward: String
+  contributor: String
+}
+
+type Channel {
+  id: ID!
+  name: String!
+  daoID: ID!
+  dao: DAO
+  posts(filter: ModelPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPostConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Post {
+  id: ID!
+  daoID: ID!
+  dao: DAO
+  channelID: ID
+  channel: Channel
+  userID: ID!
+  user: User
+  content: String!
+  comments(filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  upvotes: [ID!]
+  downvotes: [ID!]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime!
+}
+
+type Comment {
+  id: ID!
+  postID: ID!
+  userID: ID!
+  user: User
+  content: String!
+  upvotes: [ID!]
+  downvotes: [ID!]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime!
+}
+
+type Authentication {
+  userId: String
+  nonce: String
+}
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+type Gate {
+  id: ID!
+  daoID: ID!
+  dao: DAO
+  name: String!
+  description: String!
+  categories: [String!]
+  skills: [String!]
+  knowledge: [String!]
+  attitudes: [String!]
+  admins: [ID]!
+  keysNumber: Int
+  keys(filter: ModelKeyFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelKeyConnection
+  published: PublishedState
+  badge: NFTInfo!
+  preRequisites: PreRequisites
+  retroactiveEarners: [String!]
+  links: [Link]!
+  holders: Int!
+  nftType: NFTType
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Key {
+  id: ID!
+  gateID: ID!
+  gate: Gate
+  information: [KeyInformation]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  unlimited: Boolean!
+  peopleLimit: Int!
+  task: TaskUnion
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Link {
+  name: String!
+  link: AWSURL!
+}
+
+type Quiz {
+  type: TaskType
+  title: String!
+  description: String!
+  questions: [Question]!
+  passedAt: Int!
+}
+
+type Question {
+  question: String!
+  options: [QuizOption]!
+  nrOfCorrectAnswers: Int
+}
+
+type QuizOption {
+  answer: String!
+  correct: Boolean!
+}
+
+type MeetingCode {
+  type: TaskType
+  code: String!
+  caseSensitive: Boolean!
+}
+
+type TokenHold {
+  type: TaskType
+  chainID: Int!
+  address: String!
+  amount: Int!
+}
+
+type SelfVerify {
+  type: TaskType
+}
+
+type SnapshotGovernance {
+  type: TaskType
+  snapshotType: SnapshotType
+  spaceID: String!
+  proposal: String
+}
+
+type ContractInteraction {
+  type: TaskType
+  chainID: Int!
+  address: String!
+  methodName: String
+}
+
+type ManualTask {
+  type: TaskType
+  information: [KeyInformation]!
+}
+
+type PreRequisites {
+  completedGates: [ID]
+}
+
+type NFTInfo {
+  nftURL: AWSURL
+  ipfsURL: String
+  name: String!
+}
+
+type KeyInformation {
+  title: String!
+  description: String!
+}
+
+enum TaskType {
+  QUIZ
+  MEETING_CODE
+  TOKEN_HOLD
+  SC_INTERACTION
+  SNAPSHOT
+  MANUAL_TASK
+  SELF_VERIFY
+  SNAPSHOT_GOVERNANCE
+  CONTRACT_INTERACTION
+}
+
+enum TokenType {
+  ERC20
+  ERC721
+  ERC1151
+}
+
+enum SnapshotType {
+  VOTE
+  PROPOSAL
+}
+
+enum NFTType {
+  CONTRIBUTOR
+  REWARD
+}
+
+enum PublishedState {
+  NOT_PUBLISHED
+  PUBLISHED
+  PAUSED
+}
+
+union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify | SnapshotGovernance | ContractInteraction | ManualTask
+
+type ManualTaskSubmission {
+  id: ID!
+  userID: ID!
+  user: User
+  keyID: ID!
+  key: Key
+  submissionURL: AWSURL
+  discordID: String
+  wallet: String
+  comment: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type GateStatus {
+  id: ID!
+  userID: ID!
+  user: User
+  gateID: ID!
+  gate: Gate
+  reward: GateReward
+  tasks(filter: ModelTaskStatusFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaskStatusConnection
+  keysDone: Int
+  status: GateStatusList
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type GateReward {
+  rewardCode: String!
+  retrieved: Boolean!
+}
+
+type TaskStatus {
+  id: ID!
+  userID: ID!
+  user: User
+  gateID: ID!
+  gate: Gate
+  keyID: ID!
+  key: Key
+  completed: CompletedState
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Error {
+  keyID: ID!
+  error: ErrorType!
+  msg: String
+}
+
+enum GateStatusList {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum ErrorType {
+  INVALID_KEY
+  NO_HOLD
+  INVALID_CODE
+  NOT_ENOUGH_RIGHTS
+  UNEXPECTED_ERROR
+  INVALID_METHOD_NAME
+  NO_INTERACTION
+  NO_PROPOSAL
+  NO_VOTE
+  WRONG_TASK
+  NO_MORE_SLOTS
+}
+
+enum CompletedState {
+  DONE
+  IN_REVIEW
+  NOT_DONE
+}
+
+type TaskAndGateResponse {
+  id: ID!
+  userID: ID!
+  gateID: ID!
+  keyID: ID!
+  completed: Boolean!
+  completedGate: Boolean!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+union KeyVerificationResponse = TaskAndGateResponse | Error
+
+type FetchCeramic {
+  streamID: String!
+  data: AWSJSON!
+}
+
+type StreamCeramic {
+  streamed: Boolean!
+  streamID: String!
+  data: AWSJSON!
+}
+
+type CeramicError {
+  error: Boolean!
+  msg: String!
+}
+
+union FetchCeramicResponse = FetchCeramic | CeramicError
+
+union StreamCeramicResponse = StreamCeramic | CeramicError
+
+type Signature {
+  message: String!
+  signature: String!
+}
+
+type SignatureError {
+  error: Boolean!
+  msg: String!
+}
+
+union SignatureResponse = Signature | SignatureError
+
+type Credential {
+  id: ID!
+  issuerID: ID!
+  issuer: User
+  targetID: ID!
+  target: User
+  gateID: ID
+  gate: Gate
+  organizationID: ID
+  organization: DAO
+  name: String!
+  description: String!
+  image: String
+  pow: [AWSJSON]
+  skills: [String]
+  knowledges: [String]
+  attitudes: [String]
+  ceramicStream: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime!
+}
+
+input CreateNewDAO {
+  id: ID
+  dao: String!
+  name: String!
+  snapshotID: String
+  backgroundURL: AWSURL!
+  youtubeURL: AWSURL
+  logoURL: AWSURL!
+  categories: [String]!
+  tags: [String]
+  description: String!
+  tokenAddress: String
+  whitelistedAddresses: [String!]
+  socials: [SocialInput]
+  chains: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input SocialInput {
+  network: String!
+  url: String!
+}
+
+input CreateKeyQuiz {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: QuizInput
+}
+
+input KeyInformationInput {
+  title: String!
+  description: String!
+}
+
+input QuizInput {
+  type: TaskType = "QUIZ"
+  title: String!
+  description: String!
+  questions: [QuestionInput]!
+  passedAt: Int!
+}
+
+input QuestionInput {
+  question: String!
+  options: [QuizOptionInput]!
+  nrOfCorrectAnswers: Int
+}
+
+input QuizOptionInput {
+  answer: String!
+  correct: Boolean!
+}
+
+input CreateKeyMeetingCode {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: MeetingCodeInput
+}
+
+input MeetingCodeInput {
+  type: TaskType = "MEETING_CODE"
+  code: String!
+  caseSensitive: Boolean!
+}
+
+input CreateKeyTokenHold {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: TokenHoldInput
+}
+
+input TokenHoldInput {
+  type: TaskType = "TOKEN_HOLD"
+  chainID: Int!
+  address: String!
+  amount: Int!
+}
+
+input CreateKeyContractInteraction {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: ContractInteractionInput
+}
+
+input ContractInteractionInput {
+  type: TaskType = "CONTRACT_INTERACTION"
+  chainID: Int!
+  address: String!
+  methodName: String
+}
+
+input CreateKeySelfVerify {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: SelfVerifyInput
+}
+
+input SelfVerifyInput {
+  type: TaskType = "SELF_VERIFY"
+}
+
+input CreateKeySnapshotGovernance {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: SnapshotGovernanceInput
+}
+
+input SnapshotGovernanceInput {
+  type: TaskType = "SNAPSHOT_GOVERNANCE"
+  snapshotType: SnapshotType
+  spaceID: String!
+  proposal: String
+}
+
+input QuestionLambdaInput {
+  answers: [Int]!
+  questionIdx: Int!
+}
+
+input CreateKeyManualTask {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: ManualTaskInput
+}
+
+input ManualTaskInput {
+  type: TaskType = "MANUAL_TASK"
+  information: [KeyInformationInput]!
+}
+
+input ChangeKeyInput {
+  id: ID!
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  peopleLimit: Int!
+  unlimited: Boolean!
+  task: AWSJSON
+}
+
+type Query {
+  fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse
+  getUser(id: ID!): User
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getDAO(id: ID!): DAO
+  listDAOs(filter: ModelDAOFilterInput, limit: Int, nextToken: String): ModelDAOConnection
+  getBounty(id: ID!): Bounty
+  listBountys(filter: ModelBountyFilterInput, limit: Int, nextToken: String): ModelBountyConnection
+  getTokenBenefit(id: ID!): TokenBenefit
+  listTokenBenefits(filter: ModelTokenBenefitFilterInput, limit: Int, nextToken: String): ModelTokenBenefitConnection
+  getChannel(id: ID!): Channel
+  listChannels(filter: ModelChannelFilterInput, limit: Int, nextToken: String): ModelChannelConnection
+  getPost(id: ID!): Post
+  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection
+  getComment(id: ID!): Comment
+  listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+  getGate(id: ID!): Gate
+  listGates(filter: ModelGateFilterInput, limit: Int, nextToken: String): ModelGateConnection
+  getKey(id: ID!): Key
+  listKeys(filter: ModelKeyFilterInput, limit: Int, nextToken: String): ModelKeyConnection
+  getManualTaskSubmission(id: ID!): ManualTaskSubmission
+  listManualTaskSubmissions(filter: ModelManualTaskSubmissionFilterInput, limit: Int, nextToken: String): ModelManualTaskSubmissionConnection
+  getGateStatus(id: ID!): GateStatus
+  listGateStatuss(filter: ModelGateStatusFilterInput, limit: Int, nextToken: String): ModelGateStatusConnection
+  getTaskStatus(id: ID!): TaskStatus
+  listTaskStatuss(filter: ModelTaskStatusFilterInput, limit: Int, nextToken: String): ModelTaskStatusConnection
+  getCredential(id: ID!): Credential
+  listCredentials(filter: ModelCredentialFilterInput, limit: Int, nextToken: String): ModelCredentialConnection
+  getUserByAddress(wallet: String, sortDirection: ModelSortDirection, filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getUserByUsername(username: String, sortDirection: ModelSortDirection, filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getDAOById(dao: String, sortDirection: ModelSortDirection, filter: ModelDAOFilterInput, limit: Int, nextToken: String): ModelDAOConnection
+  getDAOByName(name: String, sortDirection: ModelSortDirection, filter: ModelDAOFilterInput, limit: Int, nextToken: String): ModelDAOConnection
+  getBountyByDAOID(daoID: ID, sortDirection: ModelSortDirection, filter: ModelBountyFilterInput, limit: Int, nextToken: String): ModelBountyConnection
+  getTokenBenefitByDAOID(daoID: ID, sortDirection: ModelSortDirection, filter: ModelTokenBenefitFilterInput, limit: Int, nextToken: String): ModelTokenBenefitConnection
+  getChannelByDAOID(daoID: ID, sortDirection: ModelSortDirection, filter: ModelChannelFilterInput, limit: Int, nextToken: String): ModelChannelConnection
+  getPostsByChannelID(channelID: ID, sortDirection: ModelSortDirection, filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection
+  getCommentsByPostID(postID: ID, sortDirection: ModelSortDirection, filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+  getGatesByDAOID(daoID: ID, sortDirection: ModelSortDirection, filter: ModelGateFilterInput, limit: Int, nextToken: String): ModelGateConnection
+  getKeysByGateID(gateID: ID, sortDirection: ModelSortDirection, filter: ModelKeyFilterInput, limit: Int, nextToken: String): ModelKeyConnection
+  getManualTaskSubmissionByUserID(userID: ID, sortDirection: ModelSortDirection, filter: ModelManualTaskSubmissionFilterInput, limit: Int, nextToken: String): ModelManualTaskSubmissionConnection
+  getManualTaskSubmissionByKeyID(keyID: ID, sortDirection: ModelSortDirection, filter: ModelManualTaskSubmissionFilterInput, limit: Int, nextToken: String): ModelManualTaskSubmissionConnection
+  getGateStatusByUserID(userID: ID, sortDirection: ModelSortDirection, filter: ModelGateStatusFilterInput, limit: Int, nextToken: String): ModelGateStatusConnection
+  getGateStatusByGateID(gateID: ID, sortDirection: ModelSortDirection, filter: ModelGateStatusFilterInput, limit: Int, nextToken: String): ModelGateStatusConnection
+  getTaskStatusByUserID(userID: ID, sortDirection: ModelSortDirection, filter: ModelTaskStatusFilterInput, limit: Int, nextToken: String): ModelTaskStatusConnection
+  getTaskStatusByGateID(gateID: ID, sortDirection: ModelSortDirection, filter: ModelTaskStatusFilterInput, limit: Int, nextToken: String): ModelTaskStatusConnection
+  getTaskStatusByKeyID(keyID: ID, sortDirection: ModelSortDirection, filter: ModelTaskStatusFilterInput, limit: Int, nextToken: String): ModelTaskStatusConnection
+  getCredentialByIssuerID(issuerID: ID, sortDirection: ModelSortDirection, filter: ModelCredentialFilterInput, limit: Int, nextToken: String): ModelCredentialConnection
+  getCredentialByTargetID(targetID: ID, sortDirection: ModelSortDirection, filter: ModelCredentialFilterInput, limit: Int, nextToken: String): ModelCredentialConnection
+  getCredentialByOrganizationID(organizationID: ID, sortDirection: ModelSortDirection, filter: ModelCredentialFilterInput, limit: Int, nextToken: String): ModelCredentialConnection
+  getCredentialByGateID(gateID: ID, sortDirection: ModelSortDirection, filter: ModelCredentialFilterInput, limit: Int, nextToken: String): ModelCredentialConnection
+  searchUsers(filter: SearchableUserFilterInput, sort: SearchableUserSortInput, limit: Int, nextToken: String, from: Int): SearchableUserConnection
+  searchDAOs(filter: SearchableDAOFilterInput, sort: SearchableDAOSortInput, limit: Int, nextToken: String, from: Int): SearchableDAOConnection
+  searchPosts(filter: SearchablePostFilterInput, sort: SearchablePostSortInput, limit: Int, nextToken: String, from: Int): SearchablePostConnection
+  searchGates(filter: SearchableGateFilterInput, sort: SearchableGateSortInput, limit: Int, nextToken: String, from: Int): SearchableGateConnection
+  searchCredentials(filter: SearchableCredentialFilterInput, sort: SearchableCredentialSortInput, limit: Int, nextToken: String, from: Int): SearchableCredentialConnection
+}
+
+type Mutation {
+  getAuthenticationNonce(wallet: String!): Authentication
+  createDAOWithChannels(input: CreateNewDAO!): DAO
+  votePost(postID: ID!, userID: ID!, type: VoteType!): Post
+  unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post
+  createQuiz(input: CreateKeyQuiz): Key
+  createMeetingCode(input: CreateKeyMeetingCode): Key
+  createTokenHold(input: CreateKeyTokenHold): Key
+  createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key
+  createSelfVerify(input: CreateKeySelfVerify): Key
+  createContractInteraction(input: CreateKeyContractInteraction): Key
+  createManualTask(input: CreateKeyManualTask): Key
+  changeKey(input: ChangeKeyInput): Key
+  verifyMeetingCode(userID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse
+  verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse
+  verifyContractInteraction(userID: ID!, keyID: ID!): KeyVerificationResponse
+  verifySnapshot(userID: ID!, keyID: ID!): KeyVerificationResponse
+  verifySelfVerify(userID: ID!, keyID: ID!): KeyVerificationResponse
+  verifyQuiz(userID: ID!, keyID: ID!, questions: [QuestionLambdaInput]!): KeyVerificationResponse
+  streamToCeramic(data: AWSJSON!, node: AWSURL): StreamCeramicResponse
+  generateSignature(message: String!): SignatureResponse
+  generatedNonceSignature: SignatureResponse
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
+  createDAO(input: CreateDAOInput!, condition: ModelDAOConditionInput): DAO
+  updateDAO(input: UpdateDAOInput!, condition: ModelDAOConditionInput): DAO
+  deleteDAO(input: DeleteDAOInput!, condition: ModelDAOConditionInput): DAO
+  createBounty(input: CreateBountyInput!, condition: ModelBountyConditionInput): Bounty
+  updateBounty(input: UpdateBountyInput!, condition: ModelBountyConditionInput): Bounty
+  deleteBounty(input: DeleteBountyInput!, condition: ModelBountyConditionInput): Bounty
+  createTokenBenefit(input: CreateTokenBenefitInput!, condition: ModelTokenBenefitConditionInput): TokenBenefit
+  updateTokenBenefit(input: UpdateTokenBenefitInput!, condition: ModelTokenBenefitConditionInput): TokenBenefit
+  deleteTokenBenefit(input: DeleteTokenBenefitInput!, condition: ModelTokenBenefitConditionInput): TokenBenefit
+  createChannel(input: CreateChannelInput!, condition: ModelChannelConditionInput): Channel
+  updateChannel(input: UpdateChannelInput!, condition: ModelChannelConditionInput): Channel
+  deleteChannel(input: DeleteChannelInput!, condition: ModelChannelConditionInput): Channel
+  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post
+  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post
+  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post
+  createComment(input: CreateCommentInput!, condition: ModelCommentConditionInput): Comment
+  updateComment(input: UpdateCommentInput!, condition: ModelCommentConditionInput): Comment
+  deleteComment(input: DeleteCommentInput!, condition: ModelCommentConditionInput): Comment
+  createGate(input: CreateGateInput!, condition: ModelGateConditionInput): Gate
+  updateGate(input: UpdateGateInput!, condition: ModelGateConditionInput): Gate
+  deleteGate(input: DeleteGateInput!, condition: ModelGateConditionInput): Gate
+  createKey(input: CreateKeyInput!, condition: ModelKeyConditionInput): Key
+  updateKey(input: UpdateKeyInput!, condition: ModelKeyConditionInput): Key
+  deleteKey(input: DeleteKeyInput!, condition: ModelKeyConditionInput): Key
+  createManualTaskSubmission(input: CreateManualTaskSubmissionInput!, condition: ModelManualTaskSubmissionConditionInput): ManualTaskSubmission
+  updateManualTaskSubmission(input: UpdateManualTaskSubmissionInput!, condition: ModelManualTaskSubmissionConditionInput): ManualTaskSubmission
+  deleteManualTaskSubmission(input: DeleteManualTaskSubmissionInput!, condition: ModelManualTaskSubmissionConditionInput): ManualTaskSubmission
+  createGateStatus(input: CreateGateStatusInput!, condition: ModelGateStatusConditionInput): GateStatus
+  updateGateStatus(input: UpdateGateStatusInput!, condition: ModelGateStatusConditionInput): GateStatus
+  deleteGateStatus(input: DeleteGateStatusInput!, condition: ModelGateStatusConditionInput): GateStatus
+  createTaskStatus(input: CreateTaskStatusInput!, condition: ModelTaskStatusConditionInput): TaskStatus
+  updateTaskStatus(input: UpdateTaskStatusInput!, condition: ModelTaskStatusConditionInput): TaskStatus
+  deleteTaskStatus(input: DeleteTaskStatusInput!, condition: ModelTaskStatusConditionInput): TaskStatus
+  createCredential(input: CreateCredentialInput!, condition: ModelCredentialConditionInput): Credential
+  updateCredential(input: UpdateCredentialInput!, condition: ModelCredentialConditionInput): Credential
+  deleteCredential(input: DeleteCredentialInput!, condition: ModelCredentialConditionInput): Credential
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelUserConnection {
+  items: [User]!
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  wallet: ModelStringInput
+  username: ModelStringInput
+  name: ModelStringInput
+  bio: ModelStringInput
+  daos_ids: ModelStringInput
+  init: ModelBooleanInput
+  nonce: ModelIntInput
+  pfp: ModelStringInput
+  about: ModelStringInput
+  skills: ModelStringInput
+  attitudes: ModelStringInput
+  languages: ModelStringInput
+  knowledges: ModelStringInput
+  createdAt: ModelStringInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input CreateUserInput {
+  id: ID
+  wallet: String!
+  username: String
+  name: String
+  bio: String
+  daos_ids: [String]
+  init: Boolean
+  nonce: Int!
+  pfp: String
+  about: String
+  skills: [String]
+  attitudes: [String]
+  languages: [String]
+  knowledges: [String]
+  socials: [SocialInput]
+  createdAt: AWSDateTime
+}
+
+input UpdateUserInput {
+  id: ID!
+  wallet: String
+  username: String
+  name: String
+  bio: String
+  daos_ids: [String]
+  init: Boolean
+  nonce: Int
+  pfp: String
+  about: String
+  skills: [String]
+  attitudes: [String]
+  languages: [String]
+  knowledges: [String]
+  socials: [SocialInput]
+  createdAt: AWSDateTime
+}
+
+input DeleteUserInput {
+  id: ID!
+}
+
+input ModelUserConditionInput {
+  wallet: ModelStringInput
+  username: ModelStringInput
+  name: ModelStringInput
+  bio: ModelStringInput
+  daos_ids: ModelStringInput
+  init: ModelBooleanInput
+  nonce: ModelIntInput
+  pfp: ModelStringInput
+  about: ModelStringInput
+  skills: ModelStringInput
+  attitudes: ModelStringInput
+  languages: ModelStringInput
+  knowledges: ModelStringInput
+  createdAt: ModelStringInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+}
+
+type Subscription {
+  onCreateUser: User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser: User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser: User @aws_subscribe(mutations: ["deleteUser"])
+  onCreateDAO: DAO @aws_subscribe(mutations: ["createDAO"])
+  onUpdateDAO: DAO @aws_subscribe(mutations: ["updateDAO"])
+  onDeleteDAO: DAO @aws_subscribe(mutations: ["deleteDAO"])
+  onCreateBounty: Bounty @aws_subscribe(mutations: ["createBounty"])
+  onUpdateBounty: Bounty @aws_subscribe(mutations: ["updateBounty"])
+  onDeleteBounty: Bounty @aws_subscribe(mutations: ["deleteBounty"])
+  onCreateTokenBenefit: TokenBenefit @aws_subscribe(mutations: ["createTokenBenefit"])
+  onUpdateTokenBenefit: TokenBenefit @aws_subscribe(mutations: ["updateTokenBenefit"])
+  onDeleteTokenBenefit: TokenBenefit @aws_subscribe(mutations: ["deleteTokenBenefit"])
+  onCreateChannel: Channel @aws_subscribe(mutations: ["createChannel"])
+  onUpdateChannel: Channel @aws_subscribe(mutations: ["updateChannel"])
+  onDeleteChannel: Channel @aws_subscribe(mutations: ["deleteChannel"])
+  onCreatePost: Post @aws_subscribe(mutations: ["createPost"])
+  onUpdatePost: Post @aws_subscribe(mutations: ["updatePost"])
+  onDeletePost: Post @aws_subscribe(mutations: ["deletePost"])
+  onCreateComment: Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment: Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment: Comment @aws_subscribe(mutations: ["deleteComment"])
+  onCreateGate: Gate @aws_subscribe(mutations: ["createGate"])
+  onUpdateGate: Gate @aws_subscribe(mutations: ["updateGate"])
+  onDeleteGate: Gate @aws_subscribe(mutations: ["deleteGate"])
+  onCreateKey: Key @aws_subscribe(mutations: ["createKey"])
+  onUpdateKey: Key @aws_subscribe(mutations: ["updateKey"])
+  onDeleteKey: Key @aws_subscribe(mutations: ["deleteKey"])
+  onCreateManualTaskSubmission: ManualTaskSubmission @aws_subscribe(mutations: ["createManualTaskSubmission"])
+  onUpdateManualTaskSubmission: ManualTaskSubmission @aws_subscribe(mutations: ["updateManualTaskSubmission"])
+  onDeleteManualTaskSubmission: ManualTaskSubmission @aws_subscribe(mutations: ["deleteManualTaskSubmission"])
+  onCreateGateStatus: GateStatus @aws_subscribe(mutations: ["createGateStatus"])
+  onUpdateGateStatus: GateStatus @aws_subscribe(mutations: ["updateGateStatus"])
+  onDeleteGateStatus: GateStatus @aws_subscribe(mutations: ["deleteGateStatus"])
+  onCreateTaskStatus: TaskStatus @aws_subscribe(mutations: ["createTaskStatus"])
+  onUpdateTaskStatus: TaskStatus @aws_subscribe(mutations: ["updateTaskStatus"])
+  onDeleteTaskStatus: TaskStatus @aws_subscribe(mutations: ["deleteTaskStatus"])
+  onCreateCredential: Credential @aws_subscribe(mutations: ["createCredential"])
+  onUpdateCredential: Credential @aws_subscribe(mutations: ["updateCredential"])
+  onDeleteCredential: Credential @aws_subscribe(mutations: ["deleteCredential"])
+}
+
+input FAQInput {
+  question: String!
+  answer: String!
+}
+
+input NFTContractsInput {
+  reward: String
+  contributor: String
+}
+
+type ModelDAOConnection {
+  items: [DAO]!
+  nextToken: String
+}
+
+input ModelDAOFilterInput {
+  id: ModelIDInput
+  dao: ModelStringInput
+  name: ModelStringInput
+  accomplishments: ModelStringInput
+  snapshotID: ModelStringInput
+  backgroundURL: ModelStringInput
+  youtubeURL: ModelStringInput
+  logoURL: ModelStringInput
+  categories: ModelStringInput
+  tags: ModelStringInput
+  description: ModelStringInput
+  howToJoin: ModelStringInput
+  missionAndVision: ModelStringInput
+  whatDoWeDo: ModelStringInput
+  upcomingHangouts: ModelStringInput
+  tokenAddress: ModelStringInput
+  whitelistedAddresses: ModelStringInput
+  chains: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelDAOFilterInput]
+  or: [ModelDAOFilterInput]
+  not: ModelDAOFilterInput
+}
+
+input CreateDAOInput {
+  id: ID
+  dao: String!
+  name: String!
+  faq: [FAQInput]
+  accomplishments: String
+  snapshotID: String
+  backgroundURL: AWSURL!
+  youtubeURL: AWSURL
+  logoURL: AWSURL!
+  categories: [String]!
+  tags: [String]
+  description: String!
+  howToJoin: [String]
+  missionAndVision: String
+  whatDoWeDo: String
+  upcomingHangouts: String
+  tokenAddress: String
+  whitelistedAddresses: [String!]
+  socials: [SocialInput]
+  chains: [String]
+  nftContracts: NFTContractsInput
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateDAOInput {
+  id: ID!
+  dao: String
+  name: String
+  faq: [FAQInput]
+  accomplishments: String
+  snapshotID: String
+  backgroundURL: AWSURL
+  youtubeURL: AWSURL
+  logoURL: AWSURL
+  categories: [String]
+  tags: [String]
+  description: String
+  howToJoin: [String]
+  missionAndVision: String
+  whatDoWeDo: String
+  upcomingHangouts: String
+  tokenAddress: String
+  whitelistedAddresses: [String!]
+  socials: [SocialInput]
+  chains: [String]
+  nftContracts: NFTContractsInput
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteDAOInput {
+  id: ID!
+}
+
+input ModelDAOConditionInput {
+  dao: ModelStringInput
+  name: ModelStringInput
+  accomplishments: ModelStringInput
+  snapshotID: ModelStringInput
+  backgroundURL: ModelStringInput
+  youtubeURL: ModelStringInput
+  logoURL: ModelStringInput
+  categories: ModelStringInput
+  tags: ModelStringInput
+  description: ModelStringInput
+  howToJoin: ModelStringInput
+  missionAndVision: ModelStringInput
+  whatDoWeDo: ModelStringInput
+  upcomingHangouts: ModelStringInput
+  tokenAddress: ModelStringInput
+  whitelistedAddresses: ModelStringInput
+  chains: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelDAOConditionInput]
+  or: [ModelDAOConditionInput]
+  not: ModelDAOConditionInput
+}
+
+type ModelBountyConnection {
+  items: [Bounty]!
+  nextToken: String
+}
+
+input ModelBountyFilterInput {
+  id: ModelIDInput
+  daoID: ModelIDInput
+  headline: ModelStringInput
+  description: ModelStringInput
+  level: ModelStringInput
+  categories: ModelStringInput
+  reward: ModelStringInput
+  directions: ModelStringInput
+  links: ModelStringInput
+  endDate: ModelStringInput
+  postDate: ModelStringInput
+  and: [ModelBountyFilterInput]
+  or: [ModelBountyFilterInput]
+  not: ModelBountyFilterInput
+}
+
+input CreateBountyInput {
+  id: ID
+  daoID: ID!
+  headline: String!
+  description: String
+  level: String!
+  categories: [String]!
+  reward: String!
+  directions: String
+  links: [String]!
+  endDate: AWSDateTime
+  postDate: AWSDateTime!
+}
+
+input UpdateBountyInput {
+  id: ID!
+  daoID: ID
+  headline: String
+  description: String
+  level: String
+  categories: [String]
+  reward: String
+  directions: String
+  links: [String]
+  endDate: AWSDateTime
+  postDate: AWSDateTime
+}
+
+input DeleteBountyInput {
+  id: ID!
+}
+
+input ModelBountyConditionInput {
+  daoID: ModelIDInput
+  headline: ModelStringInput
+  description: ModelStringInput
+  level: ModelStringInput
+  categories: ModelStringInput
+  reward: ModelStringInput
+  directions: ModelStringInput
+  links: ModelStringInput
+  endDate: ModelStringInput
+  postDate: ModelStringInput
+  and: [ModelBountyConditionInput]
+  or: [ModelBountyConditionInput]
+  not: ModelBountyConditionInput
+}
+
+type ModelTokenBenefitConnection {
+  items: [TokenBenefit]!
+  nextToken: String
+}
+
+input ModelTokenBenefitFilterInput {
+  id: ModelIDInput
+  daoID: ModelIDInput
+  amount: ModelStringInput
+  description: ModelStringInput
+  title: ModelStringInput
+  token: ModelStringInput
+  and: [ModelTokenBenefitFilterInput]
+  or: [ModelTokenBenefitFilterInput]
+  not: ModelTokenBenefitFilterInput
+}
+
+input CreateTokenBenefitInput {
+  id: ID
+  daoID: ID!
+  amount: String
+  description: String!
+  title: String!
+  token: String
+}
+
+input UpdateTokenBenefitInput {
+  id: ID!
+  daoID: ID
+  amount: String
+  description: String
+  title: String
+  token: String
+}
+
+input DeleteTokenBenefitInput {
+  id: ID!
+}
+
+input ModelTokenBenefitConditionInput {
+  daoID: ModelIDInput
+  amount: ModelStringInput
+  description: ModelStringInput
+  title: ModelStringInput
+  token: ModelStringInput
+  and: [ModelTokenBenefitConditionInput]
+  or: [ModelTokenBenefitConditionInput]
+  not: ModelTokenBenefitConditionInput
+}
+
+type ModelChannelConnection {
+  items: [Channel]!
+  nextToken: String
+}
+
+input ModelChannelFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  daoID: ModelIDInput
+  and: [ModelChannelFilterInput]
+  or: [ModelChannelFilterInput]
+  not: ModelChannelFilterInput
+}
+
+input CreateChannelInput {
+  id: ID
+  name: String!
+  daoID: ID!
+}
+
+input UpdateChannelInput {
+  id: ID!
+  name: String
+  daoID: ID
+}
+
+input DeleteChannelInput {
+  id: ID!
+}
+
+input ModelChannelConditionInput {
+  name: ModelStringInput
+  daoID: ModelIDInput
+  and: [ModelChannelConditionInput]
+  or: [ModelChannelConditionInput]
+  not: ModelChannelConditionInput
+}
+
+type ModelPostConnection {
+  items: [Post]!
+  nextToken: String
+}
+
+input ModelPostFilterInput {
+  id: ModelIDInput
+  daoID: ModelIDInput
+  channelID: ModelIDInput
+  userID: ModelIDInput
+  content: ModelStringInput
+  upvotes: ModelIDInput
+  downvotes: ModelIDInput
+  createdAt: ModelStringInput
+  and: [ModelPostFilterInput]
+  or: [ModelPostFilterInput]
+  not: ModelPostFilterInput
+}
+
+input CreatePostInput {
+  id: ID
+  daoID: ID!
+  channelID: ID
+  userID: ID!
+  content: String!
+  upvotes: [ID!]
+  downvotes: [ID!]
+  createdAt: AWSDateTime
+}
+
+input UpdatePostInput {
+  id: ID!
+  daoID: ID
+  channelID: ID
+  userID: ID
+  content: String
+  upvotes: [ID!]
+  downvotes: [ID!]
+  createdAt: AWSDateTime
+}
+
+input DeletePostInput {
+  id: ID!
+}
+
+input ModelPostConditionInput {
+  daoID: ModelIDInput
+  channelID: ModelIDInput
+  userID: ModelIDInput
+  content: ModelStringInput
+  upvotes: ModelIDInput
+  downvotes: ModelIDInput
+  createdAt: ModelStringInput
+  and: [ModelPostConditionInput]
+  or: [ModelPostConditionInput]
+  not: ModelPostConditionInput
+}
+
+type ModelCommentConnection {
+  items: [Comment]!
+  nextToken: String
+}
+
+input ModelCommentFilterInput {
+  id: ModelIDInput
+  postID: ModelIDInput
+  userID: ModelIDInput
+  content: ModelStringInput
+  upvotes: ModelIDInput
+  downvotes: ModelIDInput
+  createdAt: ModelStringInput
+  and: [ModelCommentFilterInput]
+  or: [ModelCommentFilterInput]
+  not: ModelCommentFilterInput
+}
+
+input CreateCommentInput {
+  id: ID
+  postID: ID!
+  userID: ID!
+  content: String!
+  upvotes: [ID!]
+  downvotes: [ID!]
+  createdAt: AWSDateTime
+}
+
+input UpdateCommentInput {
+  id: ID!
+  postID: ID
+  userID: ID
+  content: String
+  upvotes: [ID!]
+  downvotes: [ID!]
+  createdAt: AWSDateTime
+}
+
+input DeleteCommentInput {
+  id: ID!
+}
+
+input ModelCommentConditionInput {
+  postID: ModelIDInput
+  userID: ModelIDInput
+  content: ModelStringInput
+  upvotes: ModelIDInput
+  downvotes: ModelIDInput
+  createdAt: ModelStringInput
+  and: [ModelCommentConditionInput]
+  or: [ModelCommentConditionInput]
+  not: ModelCommentConditionInput
+}
+
+input NFTInfoInput {
+  nftURL: AWSURL
+  ipfsURL: String
+  name: String!
+}
+
+input PreRequisitesInput {
+  completedGates: [ID]
+}
+
+input LinkInput {
+  name: String!
+  link: AWSURL!
+}
+
+type ModelGateConnection {
+  items: [Gate]!
+  nextToken: String
+}
+
+input ModelPublishedStateInput {
+  eq: PublishedState
+  ne: PublishedState
+}
+
+input ModelNFTTypeInput {
+  eq: NFTType
+  ne: NFTType
+}
+
+input ModelGateFilterInput {
+  id: ModelIDInput
+  daoID: ModelIDInput
+  name: ModelStringInput
+  description: ModelStringInput
+  categories: ModelStringInput
+  skills: ModelStringInput
+  knowledge: ModelStringInput
+  attitudes: ModelStringInput
+  admins: ModelIDInput
+  keysNumber: ModelIntInput
+  published: ModelPublishedStateInput
+  retroactiveEarners: ModelStringInput
+  holders: ModelIntInput
+  nftType: ModelNFTTypeInput
+  and: [ModelGateFilterInput]
+  or: [ModelGateFilterInput]
+  not: ModelGateFilterInput
+}
+
+input CreateGateInput {
+  id: ID
+  daoID: ID!
+  name: String!
+  description: String!
+  categories: [String!]
+  skills: [String!]
+  knowledge: [String!]
+  attitudes: [String!]
+  admins: [ID]!
+  keysNumber: Int
+  published: PublishedState
+  badge: NFTInfoInput!
+  preRequisites: PreRequisitesInput
+  retroactiveEarners: [String!]
+  links: [LinkInput]!
+  holders: Int!
+  nftType: NFTType
+}
+
+input UpdateGateInput {
+  id: ID!
+  daoID: ID
+  name: String
+  description: String
+  categories: [String!]
+  skills: [String!]
+  knowledge: [String!]
+  attitudes: [String!]
+  admins: [ID]
+  keysNumber: Int
+  published: PublishedState
+  badge: NFTInfoInput
+  preRequisites: PreRequisitesInput
+  retroactiveEarners: [String!]
+  links: [LinkInput]
+  holders: Int
+  nftType: NFTType
+}
+
+input DeleteGateInput {
+  id: ID!
+}
+
+input ModelGateConditionInput {
+  daoID: ModelIDInput
+  name: ModelStringInput
+  description: ModelStringInput
+  categories: ModelStringInput
+  skills: ModelStringInput
+  knowledge: ModelStringInput
+  attitudes: ModelStringInput
+  admins: ModelIDInput
+  keysNumber: ModelIntInput
+  published: ModelPublishedStateInput
+  retroactiveEarners: ModelStringInput
+  holders: ModelIntInput
+  nftType: ModelNFTTypeInput
+  and: [ModelGateConditionInput]
+  or: [ModelGateConditionInput]
+  not: ModelGateConditionInput
+}
+
+type ModelKeyConnection {
+  items: [Key]!
+  nextToken: String
+}
+
+input ModelKeyFilterInput {
+  id: ModelIDInput
+  gateID: ModelIDInput
+  token: ModelStringInput
+  tokenAmount: ModelIntInput
+  keys: ModelIntInput
+  unlimited: ModelBooleanInput
+  peopleLimit: ModelIntInput
+  and: [ModelKeyFilterInput]
+  or: [ModelKeyFilterInput]
+  not: ModelKeyFilterInput
+}
+
+input CreateKeyInput {
+  id: ID
+  gateID: ID!
+  information: [KeyInformationInput]!
+  token: String
+  tokenAmount: Int
+  keys: Int!
+  unlimited: Boolean!
+  peopleLimit: Int!
+}
+
+input UpdateKeyInput {
+  id: ID!
+  gateID: ID
+  information: [KeyInformationInput]
+  token: String
+  tokenAmount: Int
+  keys: Int
+  unlimited: Boolean
+  peopleLimit: Int
+}
+
+input DeleteKeyInput {
+  id: ID!
+}
+
+input ModelKeyConditionInput {
+  gateID: ModelIDInput
+  token: ModelStringInput
+  tokenAmount: ModelIntInput
+  keys: ModelIntInput
+  unlimited: ModelBooleanInput
+  peopleLimit: ModelIntInput
+  and: [ModelKeyConditionInput]
+  or: [ModelKeyConditionInput]
+  not: ModelKeyConditionInput
+}
+
+type ModelManualTaskSubmissionConnection {
+  items: [ManualTaskSubmission]!
+  nextToken: String
+}
+
+input ModelManualTaskSubmissionFilterInput {
+  userID: ModelIDInput
+  keyID: ModelIDInput
+  submissionURL: ModelStringInput
+  discordID: ModelStringInput
+  wallet: ModelStringInput
+  comment: ModelStringInput
+  and: [ModelManualTaskSubmissionFilterInput]
+  or: [ModelManualTaskSubmissionFilterInput]
+  not: ModelManualTaskSubmissionFilterInput
+}
+
+input CreateManualTaskSubmissionInput {
+  id: ID
+  userID: ID!
+  keyID: ID!
+  submissionURL: AWSURL
+  discordID: String
+  wallet: String
+  comment: String
+}
+
+input UpdateManualTaskSubmissionInput {
+  id: ID!
+  userID: ID
+  keyID: ID
+  submissionURL: AWSURL
+  discordID: String
+  wallet: String
+  comment: String
+}
+
+input DeleteManualTaskSubmissionInput {
+  id: ID!
+}
+
+input ModelManualTaskSubmissionConditionInput {
+  userID: ModelIDInput
+  keyID: ModelIDInput
+  submissionURL: ModelStringInput
+  discordID: ModelStringInput
+  wallet: ModelStringInput
+  comment: ModelStringInput
+  and: [ModelManualTaskSubmissionConditionInput]
+  or: [ModelManualTaskSubmissionConditionInput]
+  not: ModelManualTaskSubmissionConditionInput
+}
+
+input GateRewardInput {
+  rewardCode: String!
+  retrieved: Boolean!
+}
+
+type ModelGateStatusConnection {
+  items: [GateStatus]!
+  nextToken: String
+}
+
+input ModelGateStatusListInput {
+  eq: GateStatusList
+  ne: GateStatusList
+}
+
+input ModelGateStatusFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  gateID: ModelIDInput
+  keysDone: ModelIntInput
+  status: ModelGateStatusListInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelGateStatusFilterInput]
+  or: [ModelGateStatusFilterInput]
+  not: ModelGateStatusFilterInput
+}
+
+input CreateGateStatusInput {
+  id: ID
+  userID: ID!
+  gateID: ID!
+  reward: GateRewardInput
+  keysDone: Int
+  status: GateStatusList
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateGateStatusInput {
+  id: ID!
+  userID: ID
+  gateID: ID
+  reward: GateRewardInput
+  keysDone: Int
+  status: GateStatusList
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteGateStatusInput {
+  id: ID!
+}
+
+input ModelGateStatusConditionInput {
+  userID: ModelIDInput
+  gateID: ModelIDInput
+  keysDone: ModelIntInput
+  status: ModelGateStatusListInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelGateStatusConditionInput]
+  or: [ModelGateStatusConditionInput]
+  not: ModelGateStatusConditionInput
+}
+
+type ModelTaskStatusConnection {
+  items: [TaskStatus]!
+  nextToken: String
+}
+
+input ModelCompletedStateInput {
+  eq: CompletedState
+  ne: CompletedState
+}
+
+input ModelTaskStatusFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  gateID: ModelIDInput
+  keyID: ModelIDInput
+  completed: ModelCompletedStateInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelTaskStatusFilterInput]
+  or: [ModelTaskStatusFilterInput]
+  not: ModelTaskStatusFilterInput
+}
+
+input CreateTaskStatusInput {
+  id: ID
+  userID: ID!
+  gateID: ID!
+  keyID: ID!
+  completed: CompletedState
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateTaskStatusInput {
+  id: ID!
+  userID: ID
+  gateID: ID
+  keyID: ID
+  completed: CompletedState
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteTaskStatusInput {
+  id: ID!
+}
+
+input ModelTaskStatusConditionInput {
+  userID: ModelIDInput
+  gateID: ModelIDInput
+  keyID: ModelIDInput
+  completed: ModelCompletedStateInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelTaskStatusConditionInput]
+  or: [ModelTaskStatusConditionInput]
+  not: ModelTaskStatusConditionInput
+}
+
+type ModelCredentialConnection {
+  items: [Credential]!
+  nextToken: String
+}
+
+input ModelCredentialFilterInput {
+  id: ModelIDInput
+  issuerID: ModelIDInput
+  targetID: ModelIDInput
+  gateID: ModelIDInput
+  organizationID: ModelIDInput
+  name: ModelStringInput
+  description: ModelStringInput
+  image: ModelStringInput
+  pow: ModelStringInput
+  skills: ModelStringInput
+  knowledges: ModelStringInput
+  attitudes: ModelStringInput
+  ceramicStream: ModelStringInput
+  createdAt: ModelStringInput
+  and: [ModelCredentialFilterInput]
+  or: [ModelCredentialFilterInput]
+  not: ModelCredentialFilterInput
+}
+
+input CreateCredentialInput {
+  id: ID
+  issuerID: ID!
+  targetID: ID!
+  gateID: ID
+  organizationID: ID
+  name: String!
+  description: String!
+  image: String
+  pow: [AWSJSON]
+  skills: [String]
+  knowledges: [String]
+  attitudes: [String]
+  ceramicStream: String!
+  createdAt: AWSDateTime
+}
+
+input UpdateCredentialInput {
+  id: ID!
+  issuerID: ID
+  targetID: ID
+  gateID: ID
+  organizationID: ID
+  name: String
+  description: String
+  image: String
+  pow: [AWSJSON]
+  skills: [String]
+  knowledges: [String]
+  attitudes: [String]
+  ceramicStream: String
+  createdAt: AWSDateTime
+}
+
+input DeleteCredentialInput {
+  id: ID!
+}
+
+input ModelCredentialConditionInput {
+  issuerID: ModelIDInput
+  targetID: ModelIDInput
+  gateID: ModelIDInput
+  organizationID: ModelIDInput
+  name: ModelStringInput
+  description: ModelStringInput
+  image: ModelStringInput
+  pow: ModelStringInput
+  skills: ModelStringInput
+  knowledges: ModelStringInput
+  attitudes: ModelStringInput
+  ceramicStream: ModelStringInput
+  createdAt: ModelStringInput
+  and: [ModelCredentialConditionInput]
+  or: [ModelCredentialConditionInput]
+  not: ModelCredentialConditionInput
+}
+
+input SearchableStringFilterInput {
+  ne: String
+  gt: String
+  lt: String
+  gte: String
+  lte: String
+  eq: String
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+  range: [String]
+}
+
+input SearchableIntFilterInput {
+  ne: Int
+  gt: Int
+  lt: Int
+  gte: Int
+  lte: Int
+  eq: Int
+  range: [Int]
+}
+
+input SearchableFloatFilterInput {
+  ne: Float
+  gt: Float
+  lt: Float
+  gte: Float
+  lte: Float
+  eq: Float
+  range: [Float]
+}
+
+input SearchableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input SearchableIDFilterInput {
+  ne: ID
+  gt: ID
+  lt: ID
+  gte: ID
+  lte: ID
+  eq: ID
+  match: ID
+  matchPhrase: ID
+  matchPhrasePrefix: ID
+  multiMatch: ID
+  exists: Boolean
+  wildcard: ID
+  regexp: ID
+  range: [ID]
+}
+
+input SearchableUserFilterInput {
+  id: SearchableIDFilterInput
+  wallet: SearchableStringFilterInput
+  username: SearchableStringFilterInput
+  name: SearchableStringFilterInput
+  bio: SearchableStringFilterInput
+  daos_ids: SearchableStringFilterInput
+  init: SearchableBooleanFilterInput
+  nonce: SearchableIntFilterInput
+  pfp: SearchableStringFilterInput
+  about: SearchableStringFilterInput
+  skills: SearchableStringFilterInput
+  attitudes: SearchableStringFilterInput
+  languages: SearchableStringFilterInput
+  knowledges: SearchableStringFilterInput
+  createdAt: SearchableStringFilterInput
+  and: [SearchableUserFilterInput]
+  or: [SearchableUserFilterInput]
+  not: SearchableUserFilterInput
+}
+
+enum SearchableSortDirection {
+  asc
+  desc
+}
+
+enum SearchableUserSortableFields {
+  id
+  wallet
+  username
+  name
+  bio
+  daos_ids
+  init
+  nonce
+  pfp
+  about
+  skills
+  attitudes
+  languages
+  knowledges
+  createdAt
+}
+
+input SearchableUserSortInput {
+  field: SearchableUserSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableUserConnection {
+  items: [User]!
+  nextToken: String
+  total: Int
+}
+
+input SearchableDAOFilterInput {
+  id: SearchableIDFilterInput
+  dao: SearchableStringFilterInput
+  name: SearchableStringFilterInput
+  accomplishments: SearchableStringFilterInput
+  snapshotID: SearchableStringFilterInput
+  backgroundURL: SearchableStringFilterInput
+  youtubeURL: SearchableStringFilterInput
+  logoURL: SearchableStringFilterInput
+  categories: SearchableStringFilterInput
+  tags: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  howToJoin: SearchableStringFilterInput
+  missionAndVision: SearchableStringFilterInput
+  whatDoWeDo: SearchableStringFilterInput
+  upcomingHangouts: SearchableStringFilterInput
+  tokenAddress: SearchableStringFilterInput
+  whitelistedAddresses: SearchableStringFilterInput
+  chains: SearchableStringFilterInput
+  createdAt: SearchableStringFilterInput
+  updatedAt: SearchableStringFilterInput
+  and: [SearchableDAOFilterInput]
+  or: [SearchableDAOFilterInput]
+  not: SearchableDAOFilterInput
+}
+
+enum SearchableDAOSortableFields {
+  id
+  dao
+  name
+  accomplishments
+  snapshotID
+  backgroundURL
+  youtubeURL
+  logoURL
+  categories
+  tags
+  description
+  howToJoin
+  missionAndVision
+  whatDoWeDo
+  upcomingHangouts
+  tokenAddress
+  whitelistedAddresses
+  chains
+  createdAt
+  updatedAt
+}
+
+input SearchableDAOSortInput {
+  field: SearchableDAOSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableDAOConnection {
+  items: [DAO]!
+  nextToken: String
+  total: Int
+}
+
+input SearchablePostFilterInput {
+  id: SearchableIDFilterInput
+  daoID: SearchableIDFilterInput
+  channelID: SearchableIDFilterInput
+  userID: SearchableIDFilterInput
+  content: SearchableStringFilterInput
+  upvotes: SearchableIDFilterInput
+  downvotes: SearchableIDFilterInput
+  createdAt: SearchableStringFilterInput
+  and: [SearchablePostFilterInput]
+  or: [SearchablePostFilterInput]
+  not: SearchablePostFilterInput
+}
+
+enum SearchablePostSortableFields {
+  id
+  daoID
+  channelID
+  userID
+  content
+  upvotes
+  downvotes
+  createdAt
+}
+
+input SearchablePostSortInput {
+  field: SearchablePostSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchablePostConnection {
+  items: [Post]!
+  nextToken: String
+  total: Int
+}
+
+input SearchableGateFilterInput {
+  id: SearchableIDFilterInput
+  daoID: SearchableIDFilterInput
+  name: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  categories: SearchableStringFilterInput
+  skills: SearchableStringFilterInput
+  knowledge: SearchableStringFilterInput
+  attitudes: SearchableStringFilterInput
+  admins: SearchableIDFilterInput
+  keysNumber: SearchableIntFilterInput
+  retroactiveEarners: SearchableStringFilterInput
+  holders: SearchableIntFilterInput
+  and: [SearchableGateFilterInput]
+  or: [SearchableGateFilterInput]
+  not: SearchableGateFilterInput
+}
+
+enum SearchableGateSortableFields {
+  id
+  daoID
+  name
+  description
+  categories
+  skills
+  knowledge
+  attitudes
+  admins
+  keysNumber
+  retroactiveEarners
+  holders
+}
+
+input SearchableGateSortInput {
+  field: SearchableGateSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableGateConnection {
+  items: [Gate]!
+  nextToken: String
+  total: Int
+}
+
+input SearchableCredentialFilterInput {
+  id: SearchableIDFilterInput
+  issuerID: SearchableIDFilterInput
+  targetID: SearchableIDFilterInput
+  gateID: SearchableIDFilterInput
+  organizationID: SearchableIDFilterInput
+  name: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  image: SearchableStringFilterInput
+  pow: SearchableStringFilterInput
+  skills: SearchableStringFilterInput
+  knowledges: SearchableStringFilterInput
+  attitudes: SearchableStringFilterInput
+  ceramicStream: SearchableStringFilterInput
+  createdAt: SearchableStringFilterInput
+  and: [SearchableCredentialFilterInput]
+  or: [SearchableCredentialFilterInput]
+  not: SearchableCredentialFilterInput
+}
+
+enum SearchableCredentialSortableFields {
+  id
+  issuerID
+  targetID
+  gateID
+  organizationID
+  name
+  description
+  image
+  pow
+  skills
+  knowledges
+  attitudes
+  ceramicStream
+  createdAt
+}
+
+input SearchableCredentialSortInput {
+  field: SearchableCredentialSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableCredentialConnection {
+  items: [Credential]!
+  nextToken: String
+  total: Int
+}

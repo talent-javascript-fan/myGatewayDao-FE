@@ -1,0 +1,9 @@
+{
+    "AppSyncApiName": "gateway",
+    "AuthModeLastUpdated": "2021-12-11T18:14:23.564Z",
+    "AlgoliaProjectIdPost": "gateway",
+    "AlgoliaAppIdPost": "AQ2002FW0Y",
+    "AlgoliaApiKeyPost": "37489922581bd78c8598a9f8dfbcf476",
+    "S3DeploymentBucket": "amplify-gateway-dev-184152-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/03f4493bef688938d3e2c201645340ec9823c8dd"
+}

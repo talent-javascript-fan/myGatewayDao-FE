@@ -1,0 +1,7 @@
+{
+  "dev": {
+    "configLevel": "project",
+    "useProfile": false,
+    "awsConfigFilePath": "/Users/piano/.amplify/awscloudformation/20SR99E0xU"
+  }
+}
