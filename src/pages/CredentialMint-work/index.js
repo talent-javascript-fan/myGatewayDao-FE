@@ -52,16 +52,16 @@ export const Minter = ({ credential }) => {
 	// const contractInstance = new web3.eth.Contract(contractABI, contractAddress);
 
 	useEffect(async () => {
-		// biconomyInit();
+		biconomyInit();
 		ipfsConfig();
 	}, []);
 
-	// const biconomyInit = () => {
-	// 	biconomy.onEvent(biconomy.READY, () => {
-	// 	}).onEvent(biconomy.ERROR, (err, msg) => {
-	// 		console.log(err);
-	// 	});
-	// }
+	const biconomyInit = () => {
+		biconomy.onEvent(biconomy.READY, () => {
+		}).onEvent(biconomy.ERROR, (err, msg) => {
+			console.log(err);
+		});
+	}
 	const ipfsConfig = async () => {
 		try {
 			const fileDetails = JSON.stringify({
@@ -113,8 +113,8 @@ export const Minter = ({ credential }) => {
 	};
 
 	const mintNFT = async (to, tokenURI) => {
-		// const web3 = new Web3(biconomy);
-		const web3 = new Web3(window.ethereum);
+		const web3 = new Web3(biconomy);
+		// const web3 = new Web3(window.ethereum);
 		const contractInstance = new web3.eth.Contract(contractABI, contractAddress);
 		try {
 			if (activatedChainId && (activatedChainId != currentChainID)) {
