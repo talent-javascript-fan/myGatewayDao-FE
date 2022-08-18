@@ -41,11 +41,11 @@ export const Minter = ({ credential }) => {
 	const [provider, setProvider] = useState(new Web3.providers.HttpProvider(PROVIDER.polygon));
 	const [currentChainID, setCurrentChainID] = useState(CHAIN_ID.polygon);
 
-	// const biconomy = new Biconomy(provider, {
-	// 	walletProvider: window.ethereum,
-	// 	apiKey: biconomyApiKey,
-	// 	debug: true
-	// });
+	const biconomy = new Biconomy(provider, {
+		walletProvider: window.ethereum,
+		apiKey: biconomyApiKey,
+		debug: true
+	});
 
 	// const web3 = new Web3(biconomy);
 	// const web3 = new Web3(window.ethereum);
