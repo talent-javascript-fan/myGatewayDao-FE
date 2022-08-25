@@ -94,7 +94,7 @@ const AddAbout: React.FC = () => {
 								/400
 							</div>
 							<Form className='add-about' noValidate validated={isValid} onSubmit={handleSubmit}>
-								{/* <div className='mb-5'>
+								<div className='mb-5'>
 									<RichEditor
 										value={about}
 										set={setAbout}
@@ -106,7 +106,7 @@ const AddAbout: React.FC = () => {
 									{!isValid && (
 										<FormStyled.ErrorText>The about section should be filled!</FormStyled.ErrorText>
 									)}
-								</div> */}
+								</div>
 								<div>
 									{!isValid && (
 										<FormStyled.ErrorText>The about section should be filled!</FormStyled.ErrorText>
