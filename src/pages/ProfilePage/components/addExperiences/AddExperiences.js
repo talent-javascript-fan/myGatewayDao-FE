@@ -125,7 +125,6 @@ const AddExperience = () => {
 
 	const addDAO = (dao) => {
 		setSearchTerm('');
-		// setSearchRes(searchRes.filter((res) => res.id !== dao.id));
 		const daosItems = valuesDao;
 		if (handleCheck(dao) == false) {
 			setValuesDao([...daosItems, dao]);
@@ -185,8 +184,6 @@ const AddExperience = () => {
 		return () => clearTimeout(clear);
 	}, [searchTerm, searchLoading, searchData]);
 
-	// console.log("searchRes", searchRes);
-	// console.log("valuesDao", valuesDao)
 
 	return (
 		<Page space>
