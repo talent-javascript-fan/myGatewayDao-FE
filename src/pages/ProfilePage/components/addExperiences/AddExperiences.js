@@ -191,6 +191,10 @@ const AddExperience = () => {
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
+						{/* <Link to="/profiles">
+							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
+							<p>Back to Profile</p>
+						</Link> */}
 						<a>
 							<div className="arrow-back" onClick={() => navigate('/profile')}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
@@ -207,27 +211,6 @@ const AddExperience = () => {
 							<Row className="mb-3">
 								<Form.Group as={Col} controlId="formGridDao">
 									<Form.Label>DAO</Form.Label>
-									{/* <Select
-										hideSelectedOptions={false}
-										controlShouldRenderValue={false}
-										isMulti
-										options={optionsDao}
-										className={valuesDao.length == 0 ? 'invalid' : ''}
-										classNamePrefix="select"
-										onChange={handleChangeDao}
-										value={valuesDao}
-										placeholder="Search"
-										theme={(theme) => ({
-											...theme,
-											borderRadius: 0,
-											colors: {
-												...theme.colors,
-												primary25: 'blue',
-												primary: 'darkblue',
-											},
-										})}
-									/>
-									*/}
 
 									<Form.Control
 										required
