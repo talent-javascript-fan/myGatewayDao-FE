@@ -191,10 +191,6 @@ const AddExperience = () => {
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
-						{/* <Link to="/profiles">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link> */}
 						<a>
 							<div className="arrow-back" onClick={() => navigate('/profile')}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
